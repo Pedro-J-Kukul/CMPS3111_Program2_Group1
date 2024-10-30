@@ -1,14 +1,14 @@
 include("derivation.jl")
-include("parsing_tree.jl")
+include("helpers.jl")
 function main()
     while true
         try
+            state = resetState()
             displayGrammar()
             print(colorize("Enter Instructions: ", :blue, :white))
             aids = readline()
-            if deriveProgram(aids)
-                parseTree(aids)
-            end
+            deriveProgram(aids, state)
+
         catch e
             println(colorize("Error: $e", :white, :red))
         end
