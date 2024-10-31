@@ -4,12 +4,12 @@ function generatePBASIC(state::DerivationState)
 
     # Define a header block
     header = """
-    '{\$STAMP BS2p}
-    '{\$PBASIC 2.5}
-    KEY VAR Byte
-    Main: DO
-    SERIN 3,2063,250,Timeout,[KEY]
-    """
+             '{\$STAMP BS2p}
+             '{\$PBASIC 2.5}
+             KEY         VAR         Byte
+             Main:       DO
+                         SERIN 3,2063,250,Timeout,[KEY]
+             """
 
     # Define a dictionary for movement translations to PBASIC subroutine names
     movement_translation = Dict(
@@ -39,7 +39,7 @@ function generatePBASIC(state::DerivationState)
             push!(used_movements, movement_translation[movement])
 
             # Map movement to PBASIC subroutine and format the conditional statement
-            body_block *= "    IF KEY = '$key' OR KEY = '$(lowercase(key))' THEN GOSUB $(movement_translation[movement])\n"
+            body_block *= "    IF KEY = '$(uppercase(key))' OR KEY = '$(lowercase(key))' THEN GOSUB $(movement_translation[movement])\n"
         else
             println("Invalid movement '$movement' found in assignment: '$assignment'. Skipping this assignment.")
         end
@@ -47,11 +47,10 @@ function generatePBASIC(state::DerivationState)
 
     # Define footer and subroutine blocks
     footer1 = """
-    LOOP
-  Timeout:
-    GOSUB Motor_OFF
-    GOTO Main
-    """
+                          LOOP
+              Timeout:    GOSUB Motor_OFF
+                          GOTO Main
+              """
 
     # Define subroutine code template
     subroutine_template = Dict(
@@ -70,10 +69,9 @@ function generatePBASIC(state::DerivationState)
     end
 
     footer2 = """
-Motor_OFF:
-  LOW 13 : LOW 12 : LOW 15 : LOW 14 : RETURN
-'+++++++++++++++++++++++++++++++++++++++++++++++++++++++
-"""
+          Motor_OFF: LOW 13 : LOW 12 : LOW 15 : LOW 14 : RETURN
+          '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+          """
 
     # Combine all parts to form the complete PBASIC code
     pbasic_code = header * body_block * footer1 * subroutine_block * footer2
@@ -85,5 +83,6 @@ Motor_OFF:
     open("iZEBOT.BSP", "w") do file
         write(file, pbasic_code)
     end
+
     println("\nPBASIC code saved to iZEBOT.BSP")
 end
