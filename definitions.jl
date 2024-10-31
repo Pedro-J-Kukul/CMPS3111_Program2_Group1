@@ -46,7 +46,6 @@ end
 
 # Struct for derivation State
 mutable struct DerivationState
-    assignmentsCount::Int
     validKeys::Vector{String}
     assignedButtons::Set{String}
     derivationStep::String
@@ -60,7 +59,6 @@ end
 # Resets the derivation State every time a new derivation is called
 function resetState()
     return DerivationState(
-        1,              # assignmentsCount
         [],             # validKeys  
         Set{String}(),  # assignedKeys       
         "",             # derivationStep
