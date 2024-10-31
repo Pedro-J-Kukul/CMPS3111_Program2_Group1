@@ -1,3 +1,7 @@
+# Definitions for variables used in this program
+
+
+# Struct for ANSI Colors
 mutable struct Colors
     black::String
     red::String
@@ -19,6 +23,7 @@ mutable struct Colors
     none::String
 end
 
+# Struct for grammar rules
 mutable struct GrammarRule
     lhs::String        # Left-hand side
     arrow::String      # Arrow symbol (→)
@@ -26,6 +31,7 @@ mutable struct GrammarRule
     rhs::String        # Right-hand side
 end
 
+# Struct for constants
 mutable struct Constants
     printBorderWidth::Int
     keys::Set{String}
@@ -38,6 +44,7 @@ mutable struct Constants
     background::Colors
 end
 
+# Struct for derivation State
 mutable struct DerivationState
     assignmentsCount::Int
     validKeys::Vector{String}
@@ -50,20 +57,22 @@ mutable struct DerivationState
 end
 
 
+# Resets the derivation State every time a new derivation is called
 function resetState()
     return DerivationState(
-        1,                                                                              # assignmentsCount
-        [],                                                                  # validKeys  
-        Set{String}(),                                                                  # assignedKeys       
-        "",                                                                             # derivationStep
-        0,                                                                              # derivationCounter
-        "",
-        "",
-        ""
+        1,              # assignmentsCount
+        [],             # validKeys  
+        Set{String}(),  # assignedKeys       
+        "",             # derivationStep
+        0,              # derivationCounter
+        "",             # derivationGrammar
+        "",             # derivationReplaceGrammar
+        ""              # currentKeyAssignment
     )
 end
 
-const systemConstants = Constants(
+# Constants that are used throughout the program
+systemConstants = Constants(
     150,  # printBorderWidth
     Set(["a", "b", "c", "d"]),                                                      # keys
     Set(["DRIVE", "BACK", "LEFT", "RIGHT", "SPINL", "SPINR"]),                      # commands
@@ -78,16 +87,16 @@ const systemConstants = Constants(
         GrammarRule("[key]", "→", "", "a | b | c | d"),
         GrammarRule("[command]", "→", "", "DRIVE | BACK | LEFT | RIGHT | SPINL | SPINR")
     ],                                                                              #grammarRule
-    Colors(                                                                         # foreground colors
+    Colors(
         "\u001b[30m", "\u001b[31m", "\u001b[32m", "\u001b[33m", "\u001b[34m",
         "\u001b[35m", "\u001b[36m", "\u001b[37m", "\u001b[90m", "\u001b[91m",
         "\u001b[92m", "\u001b[93m", "\u001b[94m", "\u001b[95m", "\u001b[96m",
         "\u001b[97m", "\u001b[0m", ""
-    ),
-    Colors(                                                                         # background colors
+    ),                                                                              # foreground colors
+    Colors(
         "\u001b[40m", "\u001b[41m", "\u001b[42m", "\u001b[43m", "\u001b[44m",
         "\u001b[45m", "\u001b[46m", "\u001b[47m", "\u001b[100m", "\u001b[101m",
         "\u001b[102m", "\u001b[103m", "\u001b[104m", "\u001b[105m", "\u001b[106m",
         "\u001b[107m", "\u001b[0m", ""
-    )
+    )                                                                               # background colors
 )
