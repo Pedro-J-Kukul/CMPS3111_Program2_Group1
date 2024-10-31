@@ -28,9 +28,9 @@ end
 function deriveAssignmentList(input::AbstractString, state::DerivationState) # accepts an abstract string since Julia is picky when TypeChecking is involved, and the global struct Derivation State
     input = strip(input) # Strips input for safety
     semicolonCount = count(isequal(';'), input) # counts the delimeters
-    assignmentsCount = length(state.validKeys) # count of valid assignments
+    assignmentsCount = length(state.validKeys) # count of valid assignments since it is an array, it counts the number of indexes of the array
 
-    if isempty(input) && assignmentsCount > 1 # if there are no more valid assignments to derive
+    if isempty(input) && assignmentsCount > 0 # if there are no more valid assignments to derive
         return true
     elseif isempty(input) # if no assignments were entered
         throw("Enter instructions between wake and sleep")
