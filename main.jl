@@ -8,7 +8,7 @@ function main()
         try
             state = resetState()
             displayGrammar()
-            print(colorize("Enter Instructions: ", :blue, :white))
+            print(colorize("Enter Instructions: ", :blue, :green))
             aids = readline()
             if deriveProgram(aids, state)
                 parseTree(state)
