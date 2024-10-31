@@ -1,6 +1,8 @@
 include("derivation.jl")
 include("helpers.jl")
 include("pbasic.jl")
+include("parsing_tree.jl")
+
 function main()
     while true
         try
@@ -9,6 +11,7 @@ function main()
             print(colorize("Enter Instructions: ", :blue, :white))
             aids = readline()
             if deriveProgram(aids, state)
+                parseTree(state)
                 generatePBASIC(state)
             end
         catch e
