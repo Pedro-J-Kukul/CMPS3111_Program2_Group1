@@ -3,7 +3,7 @@ function parseTree(state::DerivationState)
     if length(assignments) == 1
 
         # tokens will be in key [key] = [drive]
-        # use a dummy array for testing
+        # use a dummy array for testi
         tokens = split(assignments[1], r"\s+")
         tree = """
                                           [program]
