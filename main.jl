@@ -1,5 +1,6 @@
 include("derivation.jl")
 include("helpers.jl")
+include("pbasic.jl")
 function main()
     while true
         try
@@ -7,8 +8,9 @@ function main()
             displayGrammar()
             print(colorize("Enter Instructions: ", :blue, :white))
             aids = readline()
-            deriveProgram(aids, state)
-
+            if deriveProgram(aids, state)
+                generatePBASIC(state)
+            end
         catch e
             println(colorize("Error: $e", :white, :red))
         end
