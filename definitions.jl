@@ -62,7 +62,7 @@ function resetState()
         [],             # validKeys  
         Set{String}(),  # assignedKeys       
         "",             # derivationStep
-        0,              # derivationCounter
+        1,              # derivationCounter
         "",             # derivationGrammar
         "",             # derivationReplaceGrammar
         ""              # currentKeyAssignment

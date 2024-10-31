@@ -7,13 +7,11 @@ Main:		DO
 		   IF KEY = 'A' OR KEY = 'a' THEN GOSUB Forward
 		   IF KEY = 'B' OR KEY = 'b' THEN GOSUB TurnLeft
 		   IF KEY = 'C' OR KEY = 'c' THEN GOSUB TurnRight
-		   IF KEY = 'D' OR KEY = 'd' THEN GOSUB Backward
 		LOOP
 Timeout:	GOSUB Motor_OFF
 		GOTO Main
 '+++++ Movement Procedures ++++++++++++++++++++++++++++++
 Forward: HIGH 13 : LOW 12 : HIGH 15 : LOW 14 : RETURN
-Backward: HIGH 12 : LOW 13 : HIGH 14 : LOW 15 : RETURN
 TurnLeft: HIGH 13 : LOW 12 : LOW 15 : LOW 14 : RETURN
 TurnRight: LOW 13 : LOW 12 : HIGH 15 : LOW 14 : RETURN
 Motor_OFF: LOW 13 : LOW 12 : LOW 15 : LOW 14 : RETURN

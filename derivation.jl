@@ -50,9 +50,9 @@ function deriveAssignmentList(input::AbstractString, state::DerivationState) # a
 
     # text to replace in the derivation
     if semicolonCount == 1 # if only one assignment,
-        state.derivationGrammar = "[key-assignment]"
+        state.derivationGrammar = colorize("[key-assignment]", :magenta, :none)
     else # if there are many assignments
-        state.derivationGrammar = "[key-assignment]; [assignment-list]"
+        state.derivationGrammar = colorize("[key-assignment]; ", :magenta, :none) * colorize("[assignment-list]", :blue, :none)
     end
     state.derivationReplaceGrammar = "[assignment-list]" # what to replace
     updateDerivationSteps(state) # updates the derivation output
@@ -63,7 +63,7 @@ end
 function deriveKeyAssignments(input::AbstractString, state::DerivationState)
     input = strip(input) # strips input for safety
     keyTokens = split(input, r"\s+") #splits the assignment by whitespace
-    state.derivationGrammar = "key [key] = [command]" # correct grammar
+    state.derivationGrammar = colorize("key [key] = [command]", :green, :none) # correct grammar
     state.derivationReplaceGrammar = "[key-assignment]" # what to replace
     state.currentKeyAssignment = "" # initializes a new string for validation of this current key assignment
 
@@ -90,7 +90,7 @@ function deriveKey(input, state::DerivationState)
     end
     push!(state.assignedButtons, button) # for simplification purposes, adds the assigned buttons to a separate array
     state.currentKeyAssignment *= "key $button " # for adding to the valid key assignment
-    state.derivationGrammar = "$button" # derives the grammar
+    state.derivationGrammar = colorize("$button", :yellow, :none) # derives the grammar
     state.derivationReplaceGrammar = "[key]" # will replace [key]
     updateDerivationSteps(state) # updates derivaiton Steps
     deriveCommand(input, state) #now goes onto processing the other half of the key assignment
@@ -105,7 +105,7 @@ function deriveCommand(input, state::DerivationState)
 
     state.currentKeyAssignment *= "= $command" # completes the valid string
     push!(state.validKeys, state.currentKeyAssignment) # pushes this completed string into an array for use with other functions
-    state.derivationGrammar = "$command" #updates the derivation
+    state.derivationGrammar = colorize("$command", :yellow, :none) #updates the derivation
     state.derivationReplaceGrammar = "[command]" # to replace
     updateDerivationSteps(state) #updates steps
     return true # returns a true upon success

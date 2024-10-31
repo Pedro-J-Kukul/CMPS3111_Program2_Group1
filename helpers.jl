@@ -15,17 +15,18 @@ end
 # Used to display the current derivation state
 function updateDerivationSteps(state::DerivationState)
     if isempty(state.derivationStep) # check if its a new derivation
-        state.derivationStep = "wake [assignment-list] sleep" # if a new derivation, start from the highest level
+        state.derivationStep = "wake " * colorize("[assignment-list]", :blue, :none) * " sleep" # if a new derivation, start from the highest level
         formattedRule = format_rule(["[program]", "➝", state.derivationStep], systemConstants.derivationPadding) # formmated line
     elseif occursin(state.derivationReplaceGrammar, state.derivationStep) #checks if the correct text was added correctly
         state.derivationCounter += 1 # updates the counter 
+        paddedCounter = replace(lpad(state.derivationCounter, 2), " " => "0")
         state.derivationStep = replace(state.derivationStep, state.derivationReplaceGrammar => state.derivationGrammar) # replaces the grammar to replace with the new target that was declared in each function
 
-        formattedRule = format_rule([string(state.derivationCounter), "➝", state.derivationStep], systemConstants.derivationPadding) # formats this new line for printing
+        formattedRule = format_rule([paddedCounter, "➝", state.derivationStep], systemConstants.derivationPadding) # formats this new line for printing
     else
         throw("Derivation error: target not found") #safety measures
     end
-    println(colorize(formattedRule, :blue, :white)) # prints it with colors
+    println(formattedRule) # prints it with colors
 end
 
 # Displays BNF Grammar
@@ -37,7 +38,7 @@ function displayGrammar()
     println(border) # border
 
     for rule in systemConstants.grammar_rules# Prints each grammar rule with padding and colors
-        println(colorize(format_rule([rule.lhs, rule.arrow, rule.separator, rule.rhs], systemConstants.grammarPadding), :blue, :green))
+        println(format_rule([rule.lhs, rule.arrow, rule.separator, rule.rhs], systemConstants.grammarPadding))
     end
     println(border) # border
 end
