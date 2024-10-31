@@ -40,7 +40,7 @@ end
 
 mutable struct DerivationState
     assignmentsCount::Int
-    validKeys::Set{String}
+    validKeys::Vector{String}
     assignedButtons::Set{String}
     derivationStep::String
     derivationCounter::Int
@@ -53,7 +53,7 @@ end
 function resetState()
     return DerivationState(
         1,                                                                              # assignmentsCount
-        Set{String}(),                                                                  # validKeys  
+        [],                                                                  # validKeys  
         Set{String}(),                                                                  # assignedKeys       
         "",                                                                             # derivationStep
         0,                                                                              # derivationCounter
